@@ -1,0 +1,1 @@
+export const NOT_AUTHORIZATION = 'Você não possui autorização para fazer esta ação'
