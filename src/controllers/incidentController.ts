@@ -1,10 +1,11 @@
-import { Router, Request, Response } from 'express'
+import {  Request, Response, response } from 'express'
 
 import connection from '../database/connection'
 
 import Erros from '../Erros'
 
 type Incidents = { ong_id: string }
+
 export default {
   async store(req: Request, res: Response) {
     const { title, description, value } = req.body
@@ -20,7 +21,17 @@ export default {
     }
   },
   async index(req: Request, res: Response) {
-    const incidents = await connection('incidents').select('*')
+    const { page = 1 } = req.query
+
+    const [count] = await connection('incidents').count()
+
+    response.header('x-Total-Count', count['count(*)'])
+
+    const incidents = await connection('incidents')
+    .join('ongs', 'ongs.id', '=', 'incidents.ong_id')
+    .limit(5)
+    .offset((page -1) * 5)
+    .select(['incidents.*', 'ongs.name', 'ongs.email', 'ongs.city', 'ongs.uf' ])
 
     return res.json(incidents)
   },
@@ -39,6 +50,7 @@ export default {
       if (!incident) {
         return res.status(404).send()
       }
+      
       if ( ong_id !== incident.ong_id) {
         return res.status(401).json({err: Erros.storeErros.NOT_AUTHORIZATION })
       }

@@ -1,5 +1,5 @@
-import { NOT_AUTHORIZATION } from './storeErros'
+import { NOT_AUTHORIZATION, USER_NOT_FOUND } from './storeErros'
 
-const storeErros = { NOT_AUTHORIZATION }
+const storeErros = { NOT_AUTHORIZATION, USER_NOT_FOUND }
 
 export default { storeErros }
