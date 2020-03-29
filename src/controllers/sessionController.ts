@@ -12,7 +12,7 @@ export default {
       .first() // retorna apenas o primeiro, não um array com o prmeirro
 
       if (!ong) {
-        return res.status(400).json({ err: Err.storeErros.USER_NOT_FOUND })
+        return res.json({ err: Err.storeErros.USER_NOT_FOUND }).status(400)
       }
 
       return res.json(ong)
