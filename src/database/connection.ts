@@ -1,5 +1,5 @@
 import knex from 'knex'
-import configurations from '../../knexfile'
+import configurations from '../knexfile'
 
 const connection = knex(configurations.development)
 
